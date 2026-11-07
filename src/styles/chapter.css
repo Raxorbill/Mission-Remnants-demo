@@ -1,0 +1,384 @@
+/* ═══════════════════════════════════════════
+   CHAPTER STYLES
+   ═══════════════════════════════════════════ */
+
+.main-content {
+  min-height: 100vh;
+  background: var(--color-bg);
+  position: relative;
+  z-index: 60;
+}
+
+.chapter {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 8rem 2rem;
+  opacity: 1;
+}
+
+.chapter__header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.chapter__number {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.chapter__title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  letter-spacing: 0.02em;
+  color: var(--color-white);
+  margin-bottom: 0.8rem;
+  line-height: 1.15;
+}
+
+.chapter__question {
+  font-family: var(--font-primary);
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--color-violet);
+  letter-spacing: 0.05em;
+}
+
+.chapter__content {
+  max-width: 780px;
+  width: 100%;
+}
+
+.chapter__content p {
+  font-family: var(--font-primary);
+  font-weight: 300;
+  font-size: 1.08rem;
+  line-height: 1.85;
+  color: #94A3B8;
+  margin-bottom: 2rem;
+}
+
+.chapter__intro {
+  font-size: 1.25rem !important;
+  color: #F8FAFC !important;
+  line-height: 1.75 !important;
+}
+
+/* ── Interactive Lunar Laser Ranging Simulator ── */
+.llr-simulator {
+  margin: 3rem 0;
+  background: rgba(11, 26, 46, 0.7);
+  border: 1px solid rgba(0, 217, 245, 0.3);
+  border-radius: 6px;
+  padding: 1.8rem;
+  box-shadow: 0 0 35px rgba(0, 217, 245, 0.08), inset 0 0 30px rgba(0, 217, 245, 0.03);
+  backdrop-filter: blur(12px);
+}
+
+.llr-sim__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(139, 149, 165, 0.2);
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.llr-sim__tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--color-cyan);
+}
+
+.llr-sim__status {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #94A3B8;
+}
+
+.llr-sim__status.firing {
+  color: #00D9F5;
+  text-shadow: 0 0 8px rgba(0, 217, 245, 0.8);
+}
+
+.llr-sim__visual {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(7, 17, 31, 0.85);
+  border: 1px solid rgba(139, 149, 165, 0.2);
+  border-radius: 4px;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 1.8rem;
+  position: relative;
+}
+
+.llr-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 2;
+}
+
+.llr-node__icon {
+  font-size: 1.8rem;
+}
+
+.llr-node__name {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #FFFFFF;
+}
+
+.llr-node__loc {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--color-grey);
+}
+
+.llr-beam-track {
+  flex: 1;
+  margin: 0 1.5rem;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.llr-beam-pulse {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0%;
+  height: 2px;
+  background: #00D9F5;
+  box-shadow: 0 0 12px #00D9F5;
+}
+
+.llr-beam-dist {
+  position: absolute;
+  top: -18px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: rgba(0, 217, 245, 0.8);
+}
+
+.llr-sim__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.llr-fire-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: #00D9F5;
+  background: rgba(0, 217, 245, 0.12);
+  border: 1px solid #00D9F5;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.llr-fire-btn:hover {
+  background: rgba(0, 217, 245, 0.25);
+  box-shadow: 0 0 20px rgba(0, 217, 245, 0.35);
+  transform: translateY(-1px);
+}
+
+.llr-fire-btn .pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #00D9F5;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00D9F5;
+}
+
+.llr-metrics {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.llr-m-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.llr-m-label {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+  color: var(--color-grey);
+}
+
+.llr-m-val {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #FFFFFF;
+}
+
+.llr-m-val.cyan {
+  color: #00D9F5;
+}
+
+/* ── Scientific Fact Box ── */
+.chapter__fact {
+  margin: 3rem 0;
+  padding: 1.5rem 1.8rem;
+  border-left: 3px solid var(--color-cyan);
+  background: rgba(0, 217, 245, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.chapter__fact-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.chapter__fact p {
+  margin-bottom: 0;
+  font-size: 0.98rem !important;
+  color: #CBD5E1;
+}
+
+/* ── Six Chapters Directory Grid ── */
+.chapters-directory {
+  margin-top: 5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid rgba(139, 149, 165, 0.2);
+}
+
+.directory-heading {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  color: var(--color-cyan);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.directory-title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #FFFFFF;
+  margin-bottom: 2rem;
+}
+
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.4rem;
+}
+
+.ch-card {
+  background: rgba(11, 26, 46, 0.55);
+  border: 1px solid rgba(139, 149, 165, 0.2);
+  border-radius: 4px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.ch-card:hover {
+  border-color: rgba(0, 217, 245, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 217, 245, 0.1);
+}
+
+.ch-card--active {
+  border-color: #00D9F5;
+  background: rgba(11, 26, 46, 0.85);
+  box-shadow: 0 0 25px rgba(0, 217, 245, 0.15);
+}
+
+.ch-card__num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--color-cyan);
+  margin-bottom: 0.6rem;
+}
+
+.ch-card__title {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #FFFFFF;
+  margin-bottom: 0.5rem;
+}
+
+.ch-card__q {
+  font-family: var(--font-primary);
+  font-weight: 300;
+  font-size: 0.9rem !important;
+  color: #94A3B8 !important;
+  margin-bottom: 1.4rem !important;
+  flex-grow: 1;
+}
+
+.ch-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(139, 149, 165, 0.15);
+  padding-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+}
+
+.ch-meta-status {
+  color: var(--color-grey);
+}
+
+.ch-meta-status.active {
+  color: #00D9F5;
+  text-shadow: 0 0 6px rgba(0, 217, 245, 0.6);
+}
+
+.ch-meta-target {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .chapter {
+    padding: 4rem 1.5rem 6rem 1.5rem;
+  }
+  .llr-sim__controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

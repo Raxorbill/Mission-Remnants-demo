@@ -1,0 +1,38 @@
+:root {
+  /* ── Color Palette ── */
+  --color-bg:          #07111F;
+  --color-bg-dark:     #040B14;
+  --color-cyan:        #00D9F5;
+  --color-cyan-dim:    rgba(0, 217, 245, 0.3);
+  --color-cyan-glow:   rgba(0, 217, 245, 0.08);
+  --color-indigo:      #6366F1;
+  --color-indigo-dim:  rgba(99, 102, 241, 0.3);
+  --color-violet:      #A78BFA;
+  --color-violet-dim:  rgba(167, 139, 250, 0.2);
+  --color-white:       #FFFFFF;
+  --color-grey:        #8B95A5;
+  --color-grey-dim:    rgba(139, 149, 165, 0.4);
+
+  /* ── Typography ── */
+  --font-primary:   'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono:      'Space Mono', 'Courier New', monospace;
+
+  /* ── Spacing ── */
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  2rem;
+  --space-xl:  4rem;
+  --space-2xl: 8rem;
+
+  /* ── Easing ── */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart:  cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ── Transitions ── */
+  --transition-fast:   0.2s var(--ease-out-quart);
+  --transition-normal: 0.4s var(--ease-out-expo);
+  --transition-slow:   0.8s var(--ease-out-expo);
+}
+

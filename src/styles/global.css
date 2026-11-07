@@ -1,0 +1,23 @@
+@layer base {
+  html, body {
+    height: 100%;
+    background-color: var(--color-bg, #040711);
+    color: var(--color-white, #f8fafc);
+    font-family: var(--font-primary, 'Outfit', sans-serif);
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: rgba(0, 229, 255, 0.25);
+    color: #ffffff;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

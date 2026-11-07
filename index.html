@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission Remnants — Built for a Question</title>
+  <meta name="description" content="The missions ended. Their stories remain. An interactive exploration of humanity's questions answered through space missions." />
+  <meta property="og:title" content="Mission Remnants — Built for a Question" />
+  <meta property="og:description" content="The missions ended. Their stories remain. Experience six documentary space chapters connected with six interactive 3D Mission Lab simulations." />
+
+  <!-- Fonts: Outfit (Primary) & Space Mono (Technical labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/reset.css" />
+  <link rel="stylesheet" href="/src/styles/variables.css" />
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="stylesheet" href="/src/styles/prologue.css" />
+  <link rel="stylesheet" href="/src/styles/home.css" />
+  <link rel="stylesheet" href="/src/styles/chapter.css" />
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════
+       SCROLL PROLOGUE CONTAINER (Pinned Cinematic Journey)
+       ═══════════════════════════════════════════════ -->
+  <div id="prologueContainer" class="prologue-scroll-wrapper">
+    
+    <!-- Pinned Visual Stage -->
+    <div class="prologue-stage" id="prologueStage">
+      
+      <!-- 3D WebGL Cosmos & Photorealistic Solar System -->
+      <canvas id="space3DCanvas" class="prologue__canvas3d" aria-hidden="true"></canvas>
+
+      <!-- 2D Canvas for High-Precision Signal Waves -->
+      <canvas id="prologueCanvas" class="prologue__canvas" aria-hidden="true"></canvas>
+
+      <!-- Cinematic Ambient Gradients -->
+      <div class="prologue__ambient-orb prologue__ambient-orb--cyan" aria-hidden="true"></div>
+      <div class="prologue__ambient-orb prologue__ambient-orb--indigo" aria-hidden="true"></div>
+
+      <!-- Atmospheric HUD hidden for clean, uncluttered Prologue -->
+      <div class="prologue__hud" aria-hidden="true" style="display:none;">
+        <span id="hudDistance"></span>
+        <span id="hudStatus"></span>
+        <span id="hudVector"></span>
+        <div id="hudRanging">
+          <span id="rangingTime"></span>
+          <span id="rangingDistance"></span>
+        </div>
+      </div>
+
+      <!-- Controls Overlay (Audio + Skip to Chapter 01) -->
+      <div class="prologue__controls">
+        <button class="prologue__skip" id="skipBtn" aria-label="Skip Prologue to Chapter 1">
+          <span>Enter Chapter 01</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 2l8 6-8 6V2z" fill="currentColor"/>
+            <rect x="12" y="2" width="2" height="12" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <div class="prologue__controls-right">
+          <button class="prologue__sound" id="soundBtn" aria-label="Toggle Meditative Voice & Velvet Sound">
+            <svg class="icon-sound-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+            <svg class="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
+              <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+              <path d="M19.07 4.93a10 10 0 010 14.14"/>
+              <path d="M15.54 8.46a5 5 0 010 7.07"/>
+            </svg>
+            <span class="sound-status-pill" id="soundStatusLabel">Enable Voice</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scroll Hook Indicator -->
+      <div class="prologue__scroll-hook" id="scrollHook">
+        <div class="scroll-hook__mouse">
+          <div class="scroll-hook__wheel"></div>
+        </div>
+        <span class="scroll-hook__text">SCROLL</span>
+      </div>
+
+      <!-- Minimal Progress Line (Text markers hidden for simplicity) -->
+      <div class="prologue__progress" aria-hidden="true">
+        <div class="prologue__progress-fill" id="progressFill"></div>
+      </div>
+
+      <!-- ── CINEMATIC SCENE OVERLAYS ── -->
+
+      <!-- SCENE 01 — THE SIGNAL (Pure visual signal wave, no floating clutter) -->
+      <div class="scene scene--signal" id="scene01"></div>
+
+      <!-- SCENE 02 — THE SILENCE -->
+      <div class="scene scene--silence" id="scene02">
+        <div class="scene__words">
+          <span class="silence-word" id="sw0">SOMEWHERE.</span>
+          <span class="silence-word" id="sw1">FAR AWAY.</span>
+          <span class="silence-word" id="sw2">BEYOND OUR REACH.</span>
+        </div>
+      </div>
+
+      <!-- SCENE 03 — WHAT REMAINS -->
+      <div class="scene scene--remains" id="scene03">
+        <div class="scene__lines">
+          <div class="remains-line" id="rl0">THE SIGNALS FADED.</div>
+          <div class="remains-line" id="rl1">THE MISSIONS ENDED.</div>
+          <div class="remains-line" id="rl2">BUT THE QUESTIONS REMAINED.</div>
+        </div>
+      </div>
+
+      <!-- SCENE 04 — THE REALIZATION -->
+      <div class="scene scene--realization" id="scene04">
+        <div class="scene__actions">
+          <span class="action-word" id="aw0">MEASURED.</span>
+          <span class="action-word" id="aw1">LISTENED.</span>
+          <span class="action-word" id="aw2">EXPLORED.</span>
+          <span class="action-word" id="aw3">DISCOVERED.</span>
+        </div>
+      </div>
+
+      <!-- SCENE 05 — THE REVEAL -->
+      <div class="scene scene--reveal" id="scene05">
+        <div class="reveal__title">
+          <div class="reveal__title-line">BUILT</div>
+          <div class="reveal__title-line">FOR</div>
+          <div class="reveal__title-line">A QUESTION</div>
+        </div>
+        <div class="reveal__tagline">The missions ended. Their stories remain.</div>
+        <div style="margin-top:1.25rem; font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(226,232,240,0.65); text-align:center;">
+          NASA Space Apps Challenge · Abandoned, But Not Forgotten · Team NovoSriti · Mission Remnants
+        </div>
+      </div>
+
+      <!-- SCENE 06 — ENTER THE FIRST QUESTION (CHAPTER 01) -->
+      <div class="scene scene--enter" id="scene06">
+        <div class="enter__question">HOW FAR AWAY IS THE MOON, EXACTLY?</div>
+        <a class="enter__cta" id="beginBtn" href="#ch1">
+          <span>BEGIN CHAPTER 01</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Simple Subtitle Line -->
+      <div class="prologue__subtitle" id="subtitleOverlay" aria-live="polite">
+        <div class="subtitle-badge" style="display:none;"></div>
+        <p id="subtitleText">Every journey into the unknown begins with a question.</p>
+      </div>
+
+    </div><!-- /prologue-stage -->
+  </div><!-- /prologueContainer -->
+
+  <!-- ═══════════════════════════════════════════════
+       UNIFIED CONNECTED JOURNEY APPLICATION ROOT
+       (Prologue → Ch 1 → Mission 1 → Ch 2 → Mission 2 → … → Finale)
+       ═══════════════════════════════════════════════ -->
+  <div id="appRoot"></div>
+
+  <!-- Application Script -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
