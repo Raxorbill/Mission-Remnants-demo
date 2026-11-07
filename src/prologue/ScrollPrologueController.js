@@ -15,46 +15,53 @@ import { VoiceNarration } from './VoiceNarration.js';
 
 const DOCUMENTARY_SCRIPT = [
   {
-    range: [0.00, 0.16],
+    range: [0.00, 0.14],
     text: "Every journey into the unknown begins with a question.",
     status: "CARRIER DETECTED",
     distance: "384,400 KM",
     vector: "RA 17h 45m / DEC -29°"
   },
   {
-    range: [0.16, 0.35],
+    range: [0.14, 0.30],
     text: "Somewhere beyond our world, machines carried our curiosity farther than we could go.",
     status: "INTERCEPTING DATA STREAM",
     distance: "1,420,000 KM",
     vector: "VOYAGER 1 // HELIOPAUSE"
   },
   {
-    range: [0.35, 0.54],
+    range: [0.30, 0.46],
     text: "Some fell silent. Some completed their missions. But what they discovered did not disappear.",
     status: "ORBITAL TRAJECTORY SYNC",
     distance: "54,600,000 KM",
     vector: "TERRA ORBIT // 1.00 AU"
   },
   {
-    range: [0.54, 0.74],
+    range: [0.46, 0.62],
     text: "They measured distant worlds, listened to unfamiliar landscapes, and changed what humanity understood about the universe.",
     status: "TELEMETRY UNLOCKED",
     distance: "384,400 KM",
     vector: "TRANQUILITY BASE LOCK"
   },
   {
-    range: [0.74, 0.90],
+    range: [0.62, 0.75],
     text: "And every discovery leaves us with another question.",
     status: "LLR TARGET ACQUIRED",
     distance: "384,402.148 KM",
     vector: "0.67408° N, 23.47297° E"
   },
   {
-    range: [0.90, 1.00],
+    range: [0.75, 0.87],
     text: "How far away is the Moon, exactly?",
     status: "EXPERIMENT ONLINE",
     distance: "384,402.148 KM",
     vector: "REFLECTOR ECHO CONFIRMED"
+  },
+  {
+    range: [0.87, 1.00],
+    text: "Mission Remnants. A project created and developed by Team NovoSriti.",
+    status: "MISSION REMNANTS // NOVOSRITI",
+    distance: "384,402.148 KM",
+    vector: "CHAPTER 01 READY"
   }
 ];
 
@@ -88,9 +95,11 @@ export class ScrollPrologueController {
     this.scene04 = document.getElementById('scene04');
     this.scene05 = document.getElementById('scene05');
     this.scene06 = document.getElementById('scene06');
+    this.scene07 = document.getElementById('scene07');
 
     this.currentProgress = 0;
     this.activeVoiceIndex = -1;
+    this._hasTransitionedToChapter = false;
 
     this._bindEvents();
     this._initSimulator();
@@ -116,23 +125,10 @@ export class ScrollPrologueController {
       }
     };
 
-    // Skip Button
+    // Skip Prologue Button (Upper Left Corner)
     const skipBtn = document.getElementById('skipBtn');
     skipBtn?.addEventListener('click', () => {
-      this.transitionToChapter();
-    });
-
-    // Scene Navigation Jump Markers
-    const markers = document.querySelectorAll('.p-marker');
-    markers.forEach(m => {
-      m.addEventListener('click', () => {
-        const targetP = parseFloat(m.dataset.p);
-        const scrollHeight = this.container.offsetHeight - window.innerHeight;
-        window.scrollTo({
-          top: targetP * scrollHeight,
-          behavior: 'smooth'
-        });
-      });
+      this.transitionToChapter(0, 'chapter');
     });
 
     // Sound / Narration Toggle
@@ -161,11 +157,10 @@ export class ScrollPrologueController {
       }
     });
 
-    // Begin Button in Scene 06
-    const beginBtn = document.getElementById('beginBtn');
-    beginBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.transitionToChapter();
+    // Optional click on the Scene 07 scroll prompt also transitions into Chapter 01
+    const crScrollPrompt = document.getElementById('crScrollPrompt');
+    crScrollPrompt?.addEventListener('click', () => {
+      this.transitionToChapter(0, 'chapter');
     });
 
     this._onScroll();
@@ -176,6 +171,7 @@ export class ScrollPrologueController {
 
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = this.container.offsetHeight - window.innerHeight;
+    if (scrollHeight <= 0) return;
     const progress = Math.max(0, Math.min(1, scrollTop / scrollHeight));
 
     this.currentProgress = progress;
@@ -188,58 +184,59 @@ export class ScrollPrologueController {
       this.progressFill.style.width = `${progress * 100}%`;
     }
 
-    // Hide initial scroll mouse indicator once user begins scrolling
+    // Show scroll mouse indicator at the start and during Scene 06 ("HOW FAR AWAY IS THE MOON, EXACTLY?")
     if (this.scrollHook) {
-      if (progress > 0.03) {
-        this.scrollHook.classList.add('is-hidden');
-      } else {
+      if (progress <= 0.04 || (progress >= 0.75 && progress < 0.87)) {
         this.scrollHook.classList.remove('is-hidden');
+      } else {
+        this.scrollHook.classList.add('is-hidden');
       }
     }
 
     // Update Scenes based on continuous progress
     this._updateScenes(progress);
     this._updateNarrationAndHUD(progress);
+
+    // When the visitor scrolls down past the Scene 07 credits reveal, seamlessly enter Chapter 01
+    if (progress >= 0.992 && !this._hasTransitionedToChapter) {
+      this._hasTransitionedToChapter = true;
+      this.transitionToChapter(0, 'chapter');
+    } else if (progress < 0.95) {
+      this._hasTransitionedToChapter = false;
+    }
   }
 
   _updateScenes(p) {
-    // SCENE 01: The Signal (0.00 - 0.16)
-    const inS1 = p >= 0.0 && p < 0.16;
+    // SCENE 01: The Signal (0.00 - 0.14)
+    const inS1 = p >= 0.0 && p < 0.14;
     this._setSceneVisible(this.scene01, inS1);
     if (inS1) {
-      const labels = this.scene01.querySelectorAll('.tech-label');
-      labels.forEach((l, i) => {
-        const threshold = 0.02 + i * 0.04;
-        const opacity = p >= threshold ? Math.min(1, (p - threshold) * 20) : 0;
-        l.style.opacity = opacity;
-        l.style.transform = `translateY(${10 - opacity * 10}px)`;
-      });
-      this.canvas2D.signalOpacity = Math.max(0, 1 - p * 5);
+      this.canvas2D.signalOpacity = Math.max(0, 1 - p * 6);
     } else {
       this.canvas2D.signalOpacity = 0;
     }
 
-    // SCENE 02: The Silence (0.16 - 0.35)
-    const inS2 = p >= 0.16 && p < 0.35;
+    // SCENE 02: The Silence (0.14 - 0.30)
+    const inS2 = p >= 0.14 && p < 0.30;
     this._setSceneVisible(this.scene02, inS2);
     if (inS2) {
-      const localP = (p - 0.16) / 0.19;
+      const localP = (p - 0.14) / 0.16;
       this._animateWords(['sw0', 'sw1', 'sw2'], localP);
     }
 
-    // SCENE 03: What Remains (0.35 - 0.54)
-    const inS3 = p >= 0.35 && p < 0.54;
+    // SCENE 03: What Remains (0.30 - 0.46)
+    const inS3 = p >= 0.30 && p < 0.46;
     this._setSceneVisible(this.scene03, inS3);
     if (inS3) {
-      const localP = (p - 0.35) / 0.19;
+      const localP = (p - 0.30) / 0.16;
       this._animateWords(['rl0', 'rl1', 'rl2'], localP);
     }
 
-    // SCENE 04: The Realization (0.54 - 0.74)
-    const inS4 = p >= 0.54 && p < 0.74;
+    // SCENE 04: The Realization (0.46 - 0.62)
+    const inS4 = p >= 0.46 && p < 0.62;
     this._setSceneVisible(this.scene04, inS4);
     if (inS4) {
-      const localP = (p - 0.54) / 0.20;
+      const localP = (p - 0.46) / 0.16;
       const ids = ['aw0', 'aw1', 'aw2', 'aw3'];
       ids.forEach((id, i) => {
         const el = document.getElementById(id);
@@ -252,55 +249,68 @@ export class ScrollPrologueController {
       });
     }
 
-    // SCENE 05: The Reveal (0.74 - 0.90)
-    const inS5 = p >= 0.74 && p < 0.90;
+    // SCENE 05: The Reveal (0.62 - 0.75)
+    const inS5 = p >= 0.62 && p < 0.75;
     this._setSceneVisible(this.scene05, inS5);
     if (inS5) {
-      const localP = (p - 0.74) / 0.16;
+      const localP = (p - 0.62) / 0.13;
       const titleLines = this.scene05.querySelectorAll('.reveal__title-line');
       const tagline = this.scene05.querySelector('.reveal__tagline');
 
       titleLines.forEach((tl, i) => {
-        const showP = 0.15 + i * 0.2;
+        const showP = 0.12 + i * 0.18;
         const op = localP >= showP ? 1 : Math.max(0, localP / showP);
         tl.style.opacity = op;
         tl.style.transform = `translateY(${30 - op * 30}px)`;
       });
 
       if (tagline) {
-        const tagOp = localP >= 0.7 ? 1 : 0;
+        const tagOp = localP >= 0.65 ? 1 : 0;
         tagline.style.opacity = tagOp;
         tagline.style.transform = `translateY(${15 - tagOp * 15}px)`;
       }
     }
 
-    // SCENE 06: Enter The Experience (0.90 - 1.00)
-    const inS6 = p >= 0.90;
+    // SCENE 06: The First Question ("HOW FAR AWAY IS THE MOON, EXACTLY?") (0.75 - 0.87)
+    const inS6 = p >= 0.75 && p < 0.87;
     this._setSceneVisible(this.scene06, inS6);
     if (inS6) {
       const question = this.scene06.querySelector('.enter__question');
-      const cta = this.scene06.querySelector('.enter__cta');
       if (question) {
         question.style.opacity = '1';
         question.style.transform = 'translateY(0)';
       }
-      if (cta) {
-        cta.style.opacity = '1';
-        cta.style.transform = 'translateY(0)';
-      }
     }
 
-    // Live Lunar Laser Ranging Telemetry Box (Active in Scene 5 & 6)
-    if (this.hudRanging) {
-      if (p >= 0.72) {
-        this.hudRanging.classList.add('is-visible');
-        // Subtle micro-jitter simulating real orbital measurement variations
-        const jitterMs = ((Math.sin(Date.now() * 0.003) * 0.000008) + 2.564412).toFixed(6);
-        const jitterKm = (384402.148 + Math.sin(Date.now() * 0.002) * 0.004).toFixed(3);
-        if (this.rangingTime) this.rangingTime.textContent = `${jitterMs} s`;
-        if (this.rangingDistance) this.rangingDistance.textContent = `${jitterKm} km`;
-      } else {
-        this.hudRanging.classList.remove('is-visible');
+    // SCENE 07: Mission Remnants & Team NovoSriti Reveal (0.87 - 1.00)
+    const inS7 = p >= 0.87;
+    this._setSceneVisible(this.scene07, inS7);
+    if (inS7) {
+      const localP = Math.min(1, (p - 0.87) / 0.09);
+      const crChallenge = document.getElementById('crChallenge');
+      const crProject = document.getElementById('crProject');
+      const crTeam = document.getElementById('crTeam');
+      const crScrollPrompt = document.getElementById('crScrollPrompt');
+
+      if (crChallenge) {
+        const op = Math.min(1, localP * 2.5);
+        crChallenge.style.opacity = `${op}`;
+        crChallenge.style.transform = `translateY(${(1 - op) * 18}px)`;
+      }
+      if (crProject) {
+        const op = localP >= 0.15 ? Math.min(1, (localP - 0.15) * 2.5) : 0;
+        crProject.style.opacity = `${op}`;
+        crProject.style.transform = `translateY(${(1 - op) * 24}px)`;
+      }
+      if (crTeam) {
+        const op = localP >= 0.35 ? Math.min(1, (localP - 0.35) * 2.5) : 0;
+        crTeam.style.opacity = `${op}`;
+        crTeam.style.transform = `translateY(${(1 - op) * 18}px)`;
+      }
+      if (crScrollPrompt) {
+        const op = localP >= 0.55 ? Math.min(1, (localP - 0.55) * 2.5) : 0;
+        crScrollPrompt.style.opacity = `${op}`;
+        crScrollPrompt.style.transform = `translateY(${(1 - op) * 12}px)`;
       }
     }
   }
@@ -345,11 +355,6 @@ export class ScrollPrologueController {
         this.subtitleText.textContent = item.text;
         this.subtitleText.classList.add('is-visible');
       }
-
-      // Update HUD
-      if (this.hudStatus) this.hudStatus.textContent = item.status;
-      if (this.hudDistance) this.hudDistance.textContent = item.distance;
-      if (this.hudVector && item.vector) this.hudVector.textContent = item.vector;
 
       // Speak line if voice index changes
       if (this.activeVoiceIndex !== scriptIdx) {
@@ -452,6 +457,7 @@ export class ScrollPrologueController {
   }
 
   resume() {
+    this._hasTransitionedToChapter = false;
     this.isPaused = false;
     this.canvas3D?.resume?.();
     this.canvas2D?.start?.();

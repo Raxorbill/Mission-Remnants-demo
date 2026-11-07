@@ -51,10 +51,10 @@
         </div>
       </div>
 
-      <!-- Controls Overlay (Audio + Skip to Chapter 01) -->
+      <!-- Controls Overlay (Skip Prologue in Upper Left + Voice Toggle in Upper Right) -->
       <div class="prologue__controls">
-        <button class="prologue__skip" id="skipBtn" aria-label="Skip Prologue to Chapter 1">
-          <span>Enter Chapter 01</span>
+        <button class="prologue__skip" id="skipBtn" aria-label="Skip Prologue">
+          <span>Skip Prologue</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M3 2l8 6-8 6V2z" fill="currentColor"/>
             <rect x="12" y="2" width="2" height="12" fill="currentColor"/>
@@ -86,14 +86,14 @@
         <span class="scroll-hook__text">SCROLL</span>
       </div>
 
-      <!-- Minimal Progress Line (Text markers hidden for simplicity) -->
+      <!-- Minimal Progress Line -->
       <div class="prologue__progress" aria-hidden="true">
         <div class="prologue__progress-fill" id="progressFill"></div>
       </div>
 
       <!-- ── CINEMATIC SCENE OVERLAYS ── -->
 
-      <!-- SCENE 01 — THE SIGNAL (Pure visual signal wave, no floating clutter) -->
+      <!-- SCENE 01 — THE SIGNAL -->
       <div class="scene scene--signal" id="scene01"></div>
 
       <!-- SCENE 02 — THE SILENCE -->
@@ -132,20 +132,32 @@
           <div class="reveal__title-line">A QUESTION</div>
         </div>
         <div class="reveal__tagline">The missions ended. Their stories remain.</div>
-        <div style="margin-top:1.25rem; font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(226,232,240,0.65); text-align:center;">
-          NASA Space Apps Challenge · Abandoned, But Not Forgotten · Team NovoSriti · Mission Remnants
-        </div>
       </div>
 
-      <!-- SCENE 06 — ENTER THE FIRST QUESTION (CHAPTER 01) -->
+      <!-- SCENE 06 — THE FIRST QUESTION (Pure question, scroll down to continue) -->
       <div class="scene scene--enter" id="scene06">
         <div class="enter__question">HOW FAR AWAY IS THE MOON, EXACTLY?</div>
-        <a class="enter__cta" id="beginBtn" href="#ch1">
-          <span>BEGIN CHAPTER 01</span>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+      </div>
+
+      <!-- SCENE 07 — PROJECT & TEAM CREDITS REVEAL (Scroll down to enter Chapter 01) -->
+      <div class="scene scene--credits" id="scene07">
+        <div class="credits__container">
+          <div class="credits__challenge" id="crChallenge">
+            NASA SPACE APPS CHALLENGE · ABANDONED, BUT NOT FORGOTTEN
+          </div>
+          <div class="credits__project" id="crProject">
+            MISSION REMNANTS
+          </div>
+          <div class="credits__team" id="crTeam">
+            A Project Created &amp; Developed by <strong>Team NovoSriti</strong>
+          </div>
+          <div class="credits__scroll-prompt" id="crScrollPrompt">
+            <span>SCROLL DOWN TO ENTER CHAPTER 01</span>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M10 4v12M5 11l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <!-- Simple Subtitle Line -->
